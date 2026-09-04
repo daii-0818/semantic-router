@@ -10,6 +10,10 @@ Router project maintains. A documented option does not, by itself, make every
 platform version, image, model, or accelerator combination supported.
 
 For a task-oriented starting point, see [Choose a Deployment](deployment-options).
+For client and backend wire formats, see
+[Protocol Compatibility](protocol-compatibility). For endpoint configuration
+across deployment producers, see
+[Backend Target Compatibility](backend-target-compatibility).
 
 ## Support levels
 
@@ -98,25 +102,15 @@ boundaries.
 | NVIDIA DGX Spark Arm64 | Experimental, not qualified | Tracked by [issue #2374](https://github.com/vllm-project/semantic-router/issues/2374). | Arm64 image availability alone does not qualify CUDA, native dependencies, or end-to-end inference on this platform. |
 | Other accelerators and operating systems | Not qualified | No maintained Router deployment option is currently declared. | Open a qualification issue with reproducible hardware, software, image, and test evidence before documenting support. |
 
-## Configuration, dependencies, and security
+## Matrix boundaries
 
-Use one canonical Router YAML document. The CLI may translate it into Helm
-values, and the Operator may reconcile it from a custom resource, but neither
-option should create a second hand-maintained routing schema. Runtime
-configuration examples are references consumed by complete configurations;
-they are not deployment manifests.
+This matrix classifies project-owned deployment and integration assets. It does
+not qualify every cross-product of Router release, external platform, model
+server, database, accelerator, and model revision. Those dependencies retain
+their own lifecycle and security policies.
 
-External gateways, inference platforms, model servers, databases, storage
-classes, identity systems, and accelerator runtimes retain their own release
-and security policies. For production:
-
-1. pin the Semantic Router release, images or digests, external platform
-   versions, model revisions, and configuration together;
-2. test the backend directly before testing it through the Router;
-3. exercise health, streaming, failure, upgrade, and rollback behavior through
-   the actual data plane;
-4. move credentials into a secret manager and enable transport security,
-   network policy, authentication, and least privilege; and
-5. review [Security Hardening](security-hardening),
-   [Data and Storage](storage-overview), and
-   [Upgrade and Rollback](upgrade-rollback).
+Use one canonical Router YAML document, pin the components that you deploy as a
+tested set, and qualify the real data plane before production. See
+[Security Hardening](security-hardening), [Data and Storage](storage-overview),
+and [Upgrade and Rollback](upgrade-rollback) for the operational controls that
+are intentionally not repeated here.
